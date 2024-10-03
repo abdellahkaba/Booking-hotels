@@ -1,0 +1,23 @@
+services:
+  postgres:
+    container_name: postgres-booking-room
+    image: postgres
+    environment:
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+      PGDATA: /var/lib/postgresql/data
+      POSTGRES_DB: bookingRoom_db
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - 5432:5432
+    networks:
+      - spring-booking
+    restart: unless-stopped
+networks:
+  spring-booking:
+    driver: bridge
+
+volumes:
+  postgres:
+    driver: local
