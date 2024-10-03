@@ -13,6 +13,12 @@ spring:
         format_sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+aws:
+  s3:
+    access-key: AKIA3C6FMDEGXPCNDQP3
+    secret-key: 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
+    bucket-name: bookinghotelimages
 #application:
 #  file:
 #    uploads:
