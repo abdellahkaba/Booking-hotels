@@ -1,9 +1,7 @@
 package com.isi.booking.token;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.isi.booking.user.User;
+import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
 @AllArgsConstructor
@@ -20,4 +18,8 @@ public class Token {
     private LocalDateTime createdAt;
     private LocalDateTime expiresAt;
     private LocalDateTime validateAt;
+
+    @ManyToOne
+    @JoinColumn(name = "userId", nullable = false)
+    private User user;
 }

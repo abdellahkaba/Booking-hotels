@@ -1,10 +1,14 @@
 package com.isi.booking.role;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.isi.booking.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import java.time.LocalDateTime;
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -23,4 +27,8 @@ public class Role {
     @LastModifiedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime lastModifiedDate;
+
+    @ManyToMany(mappedBy = "roles")
+    @JsonIgnore
+    private List<User> users;
 }

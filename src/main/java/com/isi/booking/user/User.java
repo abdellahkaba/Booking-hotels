@@ -1,14 +1,20 @@
 package com.isi.booking.user;
 
+import com.isi.booking.role.Role;
+import com.isi.booking.token.Token;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -26,6 +32,13 @@ public class User implements UserDetails, Principal {
     private String password;
     private boolean accountLocked;
     private boolean enable;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Role> roles;
+
+
+
+
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdDate;
@@ -34,11 +47,19 @@ public class User implements UserDetails, Principal {
     private LocalDateTime lastModifiedDate;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return this.roles
+                .stream()
+                .map(r -> new SimpleGrantedAuthority(r.getName()))
+                .collect(Collectors.toList());
     }
+
     @Override
     public String getUsername() {
-        return null;
+        return email;
+    }
+    @Override
+    public String getPassword() {
+        return password;
     }
     @Override
     public boolean isAccountNonExpired() {
