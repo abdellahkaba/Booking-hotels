@@ -25,11 +25,9 @@ public class JwtService {
     public String generateToken(UserDetails userDetails){
         return generateToken(new HashMap<>(), userDetails);
     }
-
     String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject) ;
     }
-
     public <T> T extractClaim(String token, Function<Claims,T> claimResolver){
         final Claims claims = extractAllClaims(token);
         return claimResolver.apply(claims);
