@@ -1,5 +1,8 @@
 package com.isi.booking.auth;
 
+import com.isi.booking.exceptionHandler.BusinessErrorCodes;
+import com.isi.booking.exceptionHandler.EmailConflictException;
+import com.isi.booking.exceptionHandler.PhoneConflictException;
 import com.isi.booking.role.RoleRepository;
 import com.isi.booking.security.JwtService;
 import com.isi.booking.user.User;
@@ -24,6 +27,12 @@ public class AuthenticationService {
     public void register(RegistrationRequest request) {
         var userRole = roleRepository.findByName("USER")
                 .orElseThrow(() -> new IllegalStateException("ROLE USER n'a pas été initialisé"));
+        if (userRepository.findByEmail(request.getEmail()).isPresent()){
+            throw new EmailConflictException(BusinessErrorCodes.DUPLICATE_EMAIL.getDescription());
+        }
+        if (userRepository.findByPhone(request.getPhone()).isPresent()){
+            throw new PhoneConflictException(BusinessErrorCodes.DUPLICATE_PHONE.getDescription());
+        }
         var user = User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
