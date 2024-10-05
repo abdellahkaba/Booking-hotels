@@ -4,10 +4,7 @@ package com.isi.booking.user;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,5 +25,13 @@ public class UserController {
             @PathVariable("user-id") Integer userId
     ){
         return ResponseEntity.ok(service.getUserById(userId));
+    }
+
+    @DeleteMapping("delete/{user-id}")
+    public ResponseEntity<Void> deleteUser(
+            @PathVariable("user-id") Integer userId
+    ){
+        service.deleteUser(userId);
+        return ResponseEntity.accepted().build();
     }
 }

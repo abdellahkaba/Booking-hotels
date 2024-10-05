@@ -26,4 +26,9 @@ public class UserService {
                 .map(mapper::fromUser)
                 .orElseThrow(() -> new EntityNotFoundException(BusinessErrorCodes.ENTITY_NOT_FOUND.getDescription()));
     }
+    public void deleteUser(Integer userId) {
+        User user = repository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException(BusinessErrorCodes.ENTITY_NOT_FOUND.getDescription()));
+        repository.delete(user);
+    }
 }
