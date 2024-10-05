@@ -31,4 +31,10 @@ public class UserService {
                 .orElseThrow(() -> new EntityNotFoundException(BusinessErrorCodes.ENTITY_NOT_FOUND.getDescription()));
         repository.delete(user);
     }
+    public ResponseUser getInfo(String email) {
+         return repository.findByEmail(email)
+                .map(mapper::fromUser)
+                .orElseThrow(() -> new EntityNotFoundException(BusinessErrorCodes.ENTITY_NOT_FOUND.getDescription()));
+
+    }
 }
