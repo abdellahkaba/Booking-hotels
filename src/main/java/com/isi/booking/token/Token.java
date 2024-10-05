@@ -15,6 +15,10 @@ public class Token {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String token;
+    private boolean expired;
+    private boolean revoked;
+    @Enumerated(EnumType.STRING)
+    public TokenType tokenType = TokenType.BEARER;
     private LocalDateTime createdAt;
     private LocalDateTime expiresAt;
     private LocalDateTime validateAt;
