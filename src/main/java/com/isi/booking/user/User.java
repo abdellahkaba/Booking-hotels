@@ -1,5 +1,6 @@
 package com.isi.booking.user;
 
+import com.isi.booking.booking.Booking;
 import com.isi.booking.role.Role;
 import com.isi.booking.token.Token;
 import jakarta.persistence.*;
@@ -37,6 +38,9 @@ public class User implements UserDetails, Principal {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Booking> bookings;
 
 
 
