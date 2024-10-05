@@ -55,6 +55,7 @@ public class GlobalExceptionHandler {
                 );
     }
 
+
     @ExceptionHandler(OperationNotPermittedException.class)
     public ResponseEntity<ExceptionResponse> handleException(OperationNotPermittedException exp) {
         return ResponseEntity

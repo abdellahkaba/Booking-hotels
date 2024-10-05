@@ -13,6 +13,7 @@ public enum BusinessErrorCodes {
     BAD_CREDENTIALS(304, FORBIDDEN, "Le login et/ou le mot de passe sont incorrects"),
     DUPLICATE_EMAIL(409, HttpStatus.CONFLICT, "Email déjà utilisé"),
     DUPLICATE_PHONE(409, HttpStatus.CONFLICT, "Le numero de téléphone existe déjà"),
+    DUPLICATE_NAME(409, HttpStatus.CONFLICT, "Ce nom existe déjà")
     ;
     private final int code;
     private final String description;
