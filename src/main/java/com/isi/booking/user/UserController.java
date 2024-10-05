@@ -4,6 +4,7 @@ package com.isi.booking.user;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ public class UserController {
 
     private final UserService service;
     @GetMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<ResponseUser>> getAllUsers(){
         return ResponseEntity.ok(service.getAllUsers());
 
@@ -28,7 +30,10 @@ public class UserController {
     ){
         return ResponseEntity.ok(service.getUserById(userId));
     }
+
+
     @DeleteMapping("delete/{user-id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Void> deleteUser(
             @PathVariable("user-id") Integer userId
     ){

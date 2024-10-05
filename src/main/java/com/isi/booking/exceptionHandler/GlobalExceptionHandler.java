@@ -2,7 +2,9 @@ package com.isi.booking.exceptionHandler;
 
 
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -64,6 +66,20 @@ public class GlobalExceptionHandler {
                 .body(
                         ExceptionResponse.builder()
                                 .error(exp.getMessage())
+                                .build()
+                );
+    }
+
+    //Gestion de l'exception d'access non autoriser
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ExceptionResponse> handleAccessDeniedException(AccessDeniedException ex) {
+        return ResponseEntity
+                .status(BusinessErrorCodes.UNAUTHORIZED_ACCESS.getHttpStatus())
+                .body(
+                        ExceptionResponse.builder()
+                                .businessErrorCode(BusinessErrorCodes.UNAUTHORIZED_ACCESS.getCode())
+                                .businessErrorDescription(BusinessErrorCodes.UNAUTHORIZED_ACCESS.getDescription())
+                                .error(ex.getMessage())
                                 .build()
                 );
     }

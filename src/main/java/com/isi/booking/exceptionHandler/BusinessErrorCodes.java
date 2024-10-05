@@ -15,6 +15,8 @@ public enum BusinessErrorCodes {
     DUPLICATE_PHONE(409, HttpStatus.CONFLICT, "Le numero de téléphone existe déjà"),
     DUPLICATE_NAME(409, HttpStatus.CONFLICT, "Ce nom existe déjà"),
     ENTITY_NOT_FOUND(404, HttpStatus.NOT_FOUND, "Entité non trouvée"),
+    UNAUTHORIZED_ACCESS(403, HttpStatus.FORBIDDEN, "Accès non autorisé");
+
     ;
     private final int code;
     private final String description;
