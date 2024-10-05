@@ -1,6 +1,7 @@
 package com.isi.booking.exceptionHandler;
 
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -67,6 +68,19 @@ public class GlobalExceptionHandler {
                 );
     }
 
+    // Gestion de l'exception lorsque l'entité n'est pas trouvée
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ExceptionResponse> handleEntityNotFoundException(EntityNotFoundException exp) {
+        return ResponseEntity
+                .status(BusinessErrorCodes.ENTITY_NOT_FOUND.getHttpStatus())
+                .body(
+                        ExceptionResponse.builder()
+                                .businessErrorCode(BusinessErrorCodes.ENTITY_NOT_FOUND.getCode())
+                                .businessErrorDescription(BusinessErrorCodes.ENTITY_NOT_FOUND.getDescription())
+                                .error(exp.getMessage())
+                                .build()
+                );
+    }
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ExceptionResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException exp) {
         Set<String> errors = new HashSet<>();
