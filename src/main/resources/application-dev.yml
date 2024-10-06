@@ -14,10 +14,12 @@ spring:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
-#application:
-#  file:
-#    uploads:
-#      photos-output-path: ./uploads
+aws:
+  s3:
+    access-key: ${AWS_S3_ACCESS_KEY}
+    secret-key: ${AWS_S3_SECRET_KEY}
+    bucket-name: ${AWS_S3_BUCKET_NAME}
+
 application:
   security:
     jwt:
@@ -27,3 +29,5 @@ application:
         expiration: 604800000 # 7 days
 server:
   port: 8088
+
+
