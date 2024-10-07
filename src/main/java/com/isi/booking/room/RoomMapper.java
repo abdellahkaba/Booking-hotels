@@ -1,8 +1,6 @@
 package com.isi.booking.room;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 
 @Component
@@ -18,6 +16,15 @@ public class RoomMapper {
                 .roomType(request.roomType())
                 .roomPrice(request.roomPrice())
                 .roomDescription(request.roomDescription())
+                .build();
+    }
+
+    public RoomResponse fromRoom(Room room) {
+       return RoomResponse.builder()
+                .id(room.getId())
+                .roomType(room.getRoomType())
+                .roomPhotoUrl(room.getRoomPhotoUrl())
+                .roomDescription(room.getRoomDescription())
                 .build();
     }
 }

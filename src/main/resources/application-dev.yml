@@ -21,9 +21,9 @@ aws:
     bucket-name: ${AWS_S3_BUCKET_NAME}
 
 application:
-  file:
-    uploads:
-      photos-output-path: ./uploads
+#  file:
+#    uploads:
+#      photos-output-path: ./uploads
   security:
     jwt:
       secret-key: 133E635200446A586E3372057583782F413F9928472B4B6250645367566B5002

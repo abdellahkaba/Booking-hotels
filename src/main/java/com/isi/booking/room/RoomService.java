@@ -1,12 +1,12 @@
 package com.isi.booking.room;
 
 
-import com.isi.booking.exceptionHandler.BusinessErrorCodes;
 import com.isi.booking.file.FileStorageService;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,16 +21,22 @@ public class RoomService {
         room.setRoomPhotoUrl(imageUrl);
         return repository.save(room).getId();
     }
-
-    public void uploadRoomPhoto(
-            MultipartFile file,
-            Integer roomId
-    ){
-        Room room = repository.findById(roomId)
-                .orElseThrow(() -> new EntityNotFoundException(BusinessErrorCodes.ENTITY_NOT_FOUND.getDescription() + "ID:: " + roomId));
-        var filePicture = fileStorageService.saveFile(file,roomId);
-        room.setRoomPhotoUrl(filePicture);
-        repository.save(room);
+    public List<RoomResponse> getAllRooms() {
+        return repository.findAll()
+                .stream()
+                .map(mapper::fromRoom)
+                .collect(Collectors.toList());
     }
+
+//    public void uploadRoomPhoto(
+//            MultipartFile file,
+//            Integer roomId
+//    ){
+//        Room room = repository.findById(roomId)
+//                .orElseThrow(() -> new EntityNotFoundException(BusinessErrorCodes.ENTITY_NOT_FOUND.getDescription() + "ID:: " + roomId));
+//        var filePicture = fileStorageService.saveFile(file,roomId);
+//        room.setRoomPhotoUrl(filePicture);
+//        repository.save(room);
+//    }
 
 }
