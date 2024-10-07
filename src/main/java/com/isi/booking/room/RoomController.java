@@ -31,6 +31,12 @@ public class RoomController {
     public ResponseEntity<List<RoomResponse>> getAllRooms(){
         return ResponseEntity.ok(service.getAllRooms());
     }
+    @GetMapping("/types")
+    public List<String> getAllRoomTypes(
+
+    ){
+        return service.getAllRoomTypes();
+    }
 
 //    @PostMapping(value = "/photo/{room-id}", consumes = "multipart/form-data")
 //    public ResponseEntity<?> uploadRoomPhoto(

@@ -28,6 +28,11 @@ public class RoomService {
                 .collect(Collectors.toList());
     }
 
+    public List<String> getAllRoomTypes() {
+        return repository.findDistinctRoomTypes();
+    }
+
+
 //    public void uploadRoomPhoto(
 //            MultipartFile file,
 //            Integer roomId
