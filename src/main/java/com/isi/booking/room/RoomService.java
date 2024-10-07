@@ -1,7 +1,9 @@
 package com.isi.booking.room;
 
 
+import com.isi.booking.exceptionHandler.BusinessErrorCodes;
 import com.isi.booking.file.FileStorageService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +32,12 @@ public class RoomService {
 
     public List<String> getAllRoomTypes() {
         return repository.findDistinctRoomTypes();
+    }
+
+    public RoomResponse getRoomById(Integer roomId) {
+        return repository.findById(roomId)
+                .map(mapper::fromRoom)
+                .orElseThrow(() -> new EntityNotFoundException(BusinessErrorCodes.ENTITY_NOT_FOUND.getDescription() + " ID " + roomId));
     }
 
 

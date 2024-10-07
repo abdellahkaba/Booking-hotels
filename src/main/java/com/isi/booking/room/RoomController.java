@@ -38,6 +38,13 @@ public class RoomController {
         return service.getAllRoomTypes();
     }
 
+    @GetMapping("/{room-id}")
+    public ResponseEntity<RoomResponse> getRoomById(
+            @PathVariable("room-id") Integer roomId
+    ){
+        return ResponseEntity.ok(service.getRoomById(roomId));
+    }
+
 //    @PostMapping(value = "/photo/{room-id}", consumes = "multipart/form-data")
 //    public ResponseEntity<?> uploadRoomPhoto(
 //            @PathVariable("room-id") Integer roomId,
