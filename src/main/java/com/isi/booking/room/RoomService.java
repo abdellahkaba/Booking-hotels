@@ -3,6 +3,7 @@ package com.isi.booking.room;
 
 import com.isi.booking.exceptionHandler.BusinessErrorCodes;
 import com.isi.booking.file.FileStorageService;
+import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,29 @@ public class RoomService {
                 .map(mapper::fromRoom)
                 .orElseThrow(() -> new EntityNotFoundException(BusinessErrorCodes.ENTITY_NOT_FOUND.getDescription() + " ID " + roomId));
     }
+
+    public void updateRoom(RoomUpdateRequest request) {
+        String photo = null ;
+        if (StringUtils.isNotBlank(String.valueOf(request.roomPhotoUrl()))){
+            photo = awsS3Service.saveImageToS3(request.roomPhotoUrl());
+        }
+        var room = repository.findById(request.id())
+                .orElseThrow(() -> new EntityNotFoundException(BusinessErrorCodes.ENTITY_NOT_FOUND.getDescription()));
+        if (StringUtils.isNotBlank(request.roomType())){
+            room.setRoomType(request.roomType());
+        }
+        if (request.roomPrice() != null){
+            room.setRoomPrice(request.roomPrice());
+        }
+        if (StringUtils.isNotBlank(request.roomDescription())){
+            room.setRoomDescription(request.roomDescription());
+        }
+        if (photo != null) {
+            room.setRoomPhotoUrl(photo);
+        }
+        repository.save(room);
+    }
+
 
 
 //    public void uploadRoomPhoto(

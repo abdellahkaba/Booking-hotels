@@ -1,14 +1,12 @@
 package com.isi.booking.room;
 
 
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -44,6 +42,24 @@ public class RoomController {
     ){
         return ResponseEntity.ok(service.getRoomById(roomId));
     }
+    @PutMapping("/update/{room-id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<Void> updateRoom(
+            @PathVariable("room-id") Integer id,
+            @ModelAttribute @Valid RoomUpdateRequest request
+    ){
+        request = new RoomUpdateRequest(
+                    id,
+                request.roomType(),
+                request.roomPrice(),
+                request.roomPhotoUrl(),
+                request.roomDescription()
+        );
+        service.updateRoom(request);
+
+        return ResponseEntity.accepted().build();
+    }
+
 
 //    @PostMapping(value = "/photo/{room-id}", consumes = "multipart/form-data")
 //    public ResponseEntity<?> uploadRoomPhoto(
