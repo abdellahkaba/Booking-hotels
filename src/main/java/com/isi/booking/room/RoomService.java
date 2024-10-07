@@ -63,6 +63,11 @@ public class RoomService {
         repository.save(room);
     }
 
+    public void deleteRoom(Integer roomId) {
+        var room = repository.findById(roomId)
+                .orElseThrow(() -> new EntityNotFoundException(BusinessErrorCodes.ENTITY_NOT_FOUND.getDescription() + " ID :: " + roomId));
+        repository.delete(room);
+    }
 
 
 //    public void uploadRoomPhoto(

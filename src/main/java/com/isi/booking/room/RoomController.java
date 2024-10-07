@@ -17,7 +17,6 @@ import java.util.List;
 public class RoomController {
 
     private final RoomService service ;
-
     @PostMapping("add")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Integer> addRoom(
@@ -57,6 +56,14 @@ public class RoomController {
         );
         service.updateRoom(request);
 
+        return ResponseEntity.accepted().build();
+    }
+
+    @DeleteMapping("/delete/{room-id}")
+    public ResponseEntity<Void> deleteRoom(
+            @PathVariable("room-id") Integer roomId
+    ){
+        service.deleteRoom(roomId);
         return ResponseEntity.accepted().build();
     }
 
