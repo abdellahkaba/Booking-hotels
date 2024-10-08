@@ -116,6 +116,31 @@ public class GlobalExceptionHandler {
                 );
     }
 
+    @ExceptionHandler(InvalidBookingDateException.class)
+    public ResponseEntity<ExceptionResponse> handleException(InvalidBookingDateException exp) {
+        return ResponseEntity
+                .status(BusinessErrorCodes.INVALIDATE_CHECKINDATE_AND_CHECKOUTDATE.getHttpStatus())
+                .body(
+                        ExceptionResponse.builder()
+                                .businessErrorCode(BusinessErrorCodes.INVALIDATE_CHECKINDATE_AND_CHECKOUTDATE.getCode())
+                                .businessErrorDescription(BusinessErrorCodes.INVALIDATE_CHECKINDATE_AND_CHECKOUTDATE.getDescription())
+                                .error(exp.getMessage())
+                                .build()
+                );
+    }
+
+    @ExceptionHandler(RoomNotAvailableForSelectDateRange.class)
+    public ResponseEntity<ExceptionResponse> handleException(RoomNotAvailableForSelectDateRange exp) {
+        return ResponseEntity
+                .status(BusinessErrorCodes.ROOM_NOT_AVAILABLE_FOR_SELECT_DATE_RANGE.getHttpStatus())
+                .body(
+                        ExceptionResponse.builder()
+                                .businessErrorCode(BusinessErrorCodes.ROOM_NOT_AVAILABLE_FOR_SELECT_DATE_RANGE.getCode())
+                                .businessErrorDescription(BusinessErrorCodes.ROOM_NOT_AVAILABLE_FOR_SELECT_DATE_RANGE.getDescription())
+                                .error(exp.getMessage())
+                                .build()
+                );
+    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionResponse> handleException(Exception exp) {
