@@ -69,4 +69,9 @@ public class BookingService {
                 .map(mapper::fromBooking)
                 .orElseThrow(() -> new FoundByConfirmationCodeException(BusinessErrorCodes.NOT_FOUND_CONFIRMATION_CODE.getDescription() + " code :: " + confirmationCode));
     }
+    public void cancelBooking(Integer bookingId) {
+       Booking booking = repository.findById(bookingId)
+                .orElseThrow(() -> new EntityNotFoundException(BusinessErrorCodes.ENTITY_NOT_FOUND.getDescription() + " ID :: " + bookingId));
+        repository.delete(booking);
+    }
 }

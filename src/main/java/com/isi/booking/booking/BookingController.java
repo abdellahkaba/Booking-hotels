@@ -39,4 +39,13 @@ public class BookingController {
     ){
         return ResponseEntity.ok(service.findBookingByConfirmationCode(confirmationCode));
     }
+
+    @DeleteMapping("cancel/{booking-id}")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+    public ResponseEntity<Void> cancelBooking(
+            @PathVariable("booking-id") Integer bookingId
+    ){
+        service.cancelBooking(bookingId);
+        return ResponseEntity.accepted().build();
+    }
 }
