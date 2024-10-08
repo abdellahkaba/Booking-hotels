@@ -68,6 +68,14 @@ public class RoomService {
                 .orElseThrow(() -> new EntityNotFoundException(BusinessErrorCodes.ENTITY_NOT_FOUND.getDescription() + " ID :: " + roomId));
         repository.delete(room);
     }
+    public List<RoomResponse> getAvailableRooms() {
+       List<Room> rooms = repository.getAvailableRooms();
+       return rooms.
+               stream()
+               .map(mapper::fromRoom)
+               .collect(Collectors.toList());
+
+    }
 
 
 //    public void uploadRoomPhoto(

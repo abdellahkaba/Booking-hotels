@@ -67,15 +67,19 @@ public class RoomController {
         return ResponseEntity.accepted().build();
     }
 
+    @GetMapping("/list-available-rooms")
+    public ResponseEntity<List<RoomResponse>> getAvailableRooms(){
+        return ResponseEntity.ok(service.getAvailableRooms());
+    }
 
-//    @PostMapping(value = "/photo/{room-id}", consumes = "multipart/form-data")
-//    public ResponseEntity<?> uploadRoomPhoto(
-//            @PathVariable("room-id") Integer roomId,
-//            @Parameter()
-//            @RequestPart("file")MultipartFile file
-//            ){
-//        service.uploadRoomPhoto(file, roomId);
-//        return ResponseEntity.accepted().build();
-//    }
+    /*@PostMapping(value = "/photo/{room-id}", consumes = "multipart/form-data")
+    public ResponseEntity<?> uploadRoomPhoto(
+            @PathVariable("room-id") Integer roomId,
+            @Parameter()
+            @RequestPart("file")MultipartFile file
+            ){
+        service.uploadRoomPhoto(file, roomId);
+        return ResponseEntity.accepted().build();
+    }*/
 
 }
