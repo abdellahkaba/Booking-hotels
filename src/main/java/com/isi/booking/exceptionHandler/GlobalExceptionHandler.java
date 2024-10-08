@@ -155,6 +155,19 @@ public class GlobalExceptionHandler {
                 );
     }
 
+    @ExceptionHandler(AvailableRoomsByDateAndTypeException.class)
+    public ResponseEntity<ExceptionResponse> handleException(AvailableRoomsByDateAndTypeException exp) {
+        return ResponseEntity
+                .status(BusinessErrorCodes.INVALID_AVAILABLE_ROOMS_BY_DATE_AND_TYPE.getHttpStatus())
+                .body(
+                        ExceptionResponse.builder()
+                                .businessErrorCode(BusinessErrorCodes.INVALID_AVAILABLE_ROOMS_BY_DATE_AND_TYPE.getCode())
+                                .businessErrorDescription(BusinessErrorCodes.INVALID_AVAILABLE_ROOMS_BY_DATE_AND_TYPE.getDescription())
+                                .error(exp.getMessage())
+                                .build()
+                );
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionResponse> handleException(Exception exp) {
         exp.printStackTrace();

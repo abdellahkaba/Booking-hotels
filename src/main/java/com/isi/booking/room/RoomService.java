@@ -1,13 +1,14 @@
 package com.isi.booking.room;
 
 
+import com.isi.booking.exceptionHandler.AvailableRoomsByDateAndTypeException;
 import com.isi.booking.exceptionHandler.BusinessErrorCodes;
-import com.isi.booking.file.FileStorageService;
 import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,7 +18,7 @@ public class RoomService {
     private final RoomRepository repository;
     private final RoomMapper mapper;
     private final AwsS3Service awsS3Service ;
-    private final FileStorageService fileStorageService;
+    //private final FileStorageService fileStorageService;
     public Integer addRoom(RoomRequest request) {
         String imageUrl = awsS3Service.saveImageToS3(request.roomPhotoUrl());
         Room room = mapper.toRoom(request);
@@ -77,16 +78,27 @@ public class RoomService {
 
     }
 
+    public List<RoomResponse> getAvailableRoomsByDateAndType(LocalDate checkInDate, LocalDate checkOutDate, String roomType) {
+        if (checkInDate == null || roomType == null || roomType.isBlank() || checkOutDate == null){
+            throw new AvailableRoomsByDateAndTypeException(BusinessErrorCodes.INVALID_AVAILABLE_ROOMS_BY_DATE_AND_TYPE.getDescription());
+        }
+        List<Room> rooms = repository.findAvailableRoomsByDatesAndTypes(checkInDate,checkOutDate,roomType);
+        return rooms
+                .stream()
+                .map(mapper::fromRoom)
+                .collect(Collectors.toList());
+    }
 
-//    public void uploadRoomPhoto(
-//            MultipartFile file,
-//            Integer roomId
-//    ){
-//        Room room = repository.findById(roomId)
-//                .orElseThrow(() -> new EntityNotFoundException(BusinessErrorCodes.ENTITY_NOT_FOUND.getDescription() + "ID:: " + roomId));
-//        var filePicture = fileStorageService.saveFile(file,roomId);
-//        room.setRoomPhotoUrl(filePicture);
-//        repository.save(room);
-//    }
+
+    /*public void uploadRoomPhoto(
+            MultipartFile file,
+            Integer roomId
+    ){
+        Room room = repository.findById(roomId)
+                .orElseThrow(() -> new EntityNotFoundException(BusinessErrorCodes.ENTITY_NOT_FOUND.getDescription() + "ID:: " + roomId));
+        var filePicture = fileStorageService.saveFile(file,roomId);
+        room.setRoomPhotoUrl(filePicture);
+        repository.save(room);
+    }*/
 
 }

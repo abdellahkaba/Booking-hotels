@@ -19,6 +19,7 @@ public enum BusinessErrorCodes {
     INVALIDATE_CHECKINDATE_AND_CHECKOUTDATE(403,FORBIDDEN,"La date d'arrivée doit être postérieure à la date de départ"),
     ROOM_NOT_AVAILABLE_FOR_SELECT_DATE_RANGE(403, FORBIDDEN, "Chambre non disponible pour la plage de dates sélectionnée" ),
     NOT_FOUND_CONFIRMATION_CODE(404, HttpStatus.NOT_FOUND, "Code de confirmation non trouvé"),
+    INVALID_AVAILABLE_ROOMS_BY_DATE_AND_TYPE(400,BAD_REQUEST, "Veuillez fournir des valeurs pour tous les champs (checkInDate, roomType, checkOutDate" ),
     ;
     private final int code;
     private final String description;

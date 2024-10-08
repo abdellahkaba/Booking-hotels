@@ -4,10 +4,12 @@ package com.isi.booking.room;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -71,7 +73,14 @@ public class RoomController {
     public ResponseEntity<List<RoomResponse>> getAvailableRooms(){
         return ResponseEntity.ok(service.getAvailableRooms());
     }
-
+    @GetMapping("/available-rooms-by-and-type")
+    public ResponseEntity<List<RoomResponse>> getAvailableRoomsByDateAndType(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)LocalDate checkInDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)LocalDate checkOutDate,
+            @RequestParam(required = false) String roomType
+            ){
+        return ResponseEntity.ok(service.getAvailableRoomsByDateAndType(checkInDate,checkOutDate,roomType));
+    }
     /*@PostMapping(value = "/photo/{room-id}", consumes = "multipart/form-data")
     public ResponseEntity<?> uploadRoomPhoto(
             @PathVariable("room-id") Integer roomId,
