@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +20,7 @@ public class BookingService {
     private final UserRepository userRepository;
     private final RoomRepository roomRepository;
     private final BookingRepository repository;
+    private final BookingMapper mapper;
 
     private boolean roomIsAvailable(Booking booking, List<Booking> existingBookings){
         return existingBookings
@@ -54,5 +56,12 @@ public class BookingService {
         request.setBookingConfirmationCode(bookingConfirmationCode);
         return repository.save(request).getId();
 
+    }
+
+    public List<BookingResponse> getAllBookings() {
+        return repository.findAll()
+                .stream()
+                .map(mapper::fromBooking)
+                .collect(Collectors.toList());
     }
 }
