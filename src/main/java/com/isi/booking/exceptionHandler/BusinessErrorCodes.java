@@ -17,7 +17,8 @@ public enum BusinessErrorCodes {
     ENTITY_NOT_FOUND(404, HttpStatus.NOT_FOUND, "Entité non trouvée"),
     UNAUTHORIZED_ACCESS(403, HttpStatus.FORBIDDEN, "Accès non autorisé"),
     INVALIDATE_CHECKINDATE_AND_CHECKOUTDATE(403,FORBIDDEN,"La date d'arrivée doit être postérieure à la date de départ"),
-    ROOM_NOT_AVAILABLE_FOR_SELECT_DATE_RANGE(403, FORBIDDEN, "Chambre non disponible pour la plage de dates sélectionnée" )
+    ROOM_NOT_AVAILABLE_FOR_SELECT_DATE_RANGE(403, FORBIDDEN, "Chambre non disponible pour la plage de dates sélectionnée" ),
+    NOT_FOUND_CONFIRMATION_CODE(404, HttpStatus.NOT_FOUND, "Code de confirmation non trouvé"),
     ;
     private final int code;
     private final String description;

@@ -1,6 +1,7 @@
 package com.isi.booking.booking;
 
 import com.isi.booking.exceptionHandler.BusinessErrorCodes;
+import com.isi.booking.exceptionHandler.FoundByConfirmationCodeException;
 import com.isi.booking.exceptionHandler.InvalidBookingDateException;
 import com.isi.booking.exceptionHandler.RoomNotAvailableForSelectDateRange;
 import com.isi.booking.room.RoomRepository;
@@ -57,11 +58,15 @@ public class BookingService {
         return repository.save(request).getId();
 
     }
-
     public List<BookingResponse> getAllBookings() {
         return repository.findAll()
                 .stream()
                 .map(mapper::fromBooking)
                 .collect(Collectors.toList());
+    }
+    public BookingResponse findBookingByConfirmationCode(String confirmationCode) {
+        return repository.findByBookingConfirmationCode(confirmationCode)
+                .map(mapper::fromBooking)
+                .orElseThrow(() -> new FoundByConfirmationCodeException(BusinessErrorCodes.NOT_FOUND_CONFIRMATION_CODE.getDescription() + " code :: " + confirmationCode));
     }
 }

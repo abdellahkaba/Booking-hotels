@@ -32,4 +32,11 @@ public class BookingController {
     public ResponseEntity<List<BookingResponse>> getAllBookings(){
         return ResponseEntity.ok(service.getAllBookings());
     }
+
+    @GetMapping("/get-by-confirmation-code/{confirmation-code}")
+    public ResponseEntity<BookingResponse> findBookingByConfirmationCode(
+            @PathVariable("confirmation-code") String confirmationCode
+    ){
+        return ResponseEntity.ok(service.findBookingByConfirmationCode(confirmationCode));
+    }
 }

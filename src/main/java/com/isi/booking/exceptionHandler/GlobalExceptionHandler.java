@@ -142,6 +142,19 @@ public class GlobalExceptionHandler {
                 );
     }
 
+    @ExceptionHandler(FoundByConfirmationCodeException.class)
+    public ResponseEntity<ExceptionResponse> handleException(FoundByConfirmationCodeException exp) {
+        return ResponseEntity
+                .status(BusinessErrorCodes.NOT_FOUND_CONFIRMATION_CODE.getHttpStatus())
+                .body(
+                        ExceptionResponse.builder()
+                                .businessErrorCode(BusinessErrorCodes.NOT_FOUND_CONFIRMATION_CODE.getCode())
+                                .businessErrorDescription(BusinessErrorCodes.NOT_FOUND_CONFIRMATION_CODE.getDescription())
+                                .error(exp.getMessage())
+                                .build()
+                );
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionResponse> handleException(Exception exp) {
         exp.printStackTrace();
