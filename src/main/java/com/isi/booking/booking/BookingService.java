@@ -23,7 +23,7 @@ public class BookingService {
     private final BookingRepository repository;
     private final BookingMapper mapper;
 
-    private boolean roomIsAvailable(Booking booking, List<Booking> existingBookings){
+    private boolean roomIsAvailable(BookingRequest booking, List<Booking> existingBookings){
         return existingBookings
                 .stream()
                 .noneMatch(exist -> booking.getCheckInDate().equals(exist.getCheckInDate()) ||
@@ -36,26 +36,31 @@ public class BookingService {
                 );
     }
 
-    public Integer saveBooking(Integer roomId, Integer userId, Booking request) {
+    public String saveBooking(BookingRequest request) {
 
         if (request.getCheckOutDate().isBefore(request.getCheckInDate())){
             throw new InvalidBookingDateException(BusinessErrorCodes.INVALIDATE_CHECKINDATE_AND_CHECKOUTDATE.getDescription());
         }
-        var room = roomRepository.findById(roomId)
-                .orElseThrow(() -> new EntityNotFoundException(BusinessErrorCodes.ENTITY_NOT_FOUND.getDescription() + " ID :: " + roomId));
-        var user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException(BusinessErrorCodes.ENTITY_NOT_FOUND.getDescription() + " ID :: " + userId));
+        var room = roomRepository.findById(request.getRoomId())
+                .orElseThrow(() -> new EntityNotFoundException(BusinessErrorCodes.ENTITY_NOT_FOUND.getDescription() + " ID :: " + request.getRoomId()));
+        var user = userRepository.findById(request.getUserId())
+                .orElseThrow(() -> new EntityNotFoundException(BusinessErrorCodes.ENTITY_NOT_FOUND.getDescription() + " ID :: " + request.getUserId()));
 
         List<Booking> existingBookings = room.getBookings();
 
         if (!roomIsAvailable(request,existingBookings)){
             throw new RoomNotAvailableForSelectDateRange(BusinessErrorCodes.ROOM_NOT_AVAILABLE_FOR_SELECT_DATE_RANGE.getDescription());
         }
-        request.setRoom(room);
-        request.setUser(user);
         String bookingConfirmationCode = Utils.generateRandomConfirmationCode(10);
         request.setBookingConfirmationCode(bookingConfirmationCode);
-        return repository.save(request).getId();
+        var booking = mapper.toBooking(request);
+        booking.setRoom(room);
+        booking.setUser(user);
+        booking.setNumOfAdults(booking.getNumOfAdults());
+        booking.setNumOfChildren(booking.getNumOfChildren());
+        booking.setTotalNumOfGuest(request.getNumOfAdults() + request.getNumOfChildren());
+        booking.setBookingConfirmationCode(Utils.generateRandomConfirmationCode(10));
+        return repository.save(booking).getBookingConfirmationCode();
 
     }
     public List<BookingResponse> getAllBookings() {

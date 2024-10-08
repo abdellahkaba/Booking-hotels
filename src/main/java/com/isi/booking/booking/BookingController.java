@@ -17,14 +17,12 @@ import java.util.List;
 public class BookingController {
 
     private final BookingService service;
-    @PostMapping("/to-book/{room-id}/{user-id}")
+    @PostMapping("/to-book")
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
-    public ResponseEntity<Integer> saveBooking(
-            @PathVariable("room-id") Integer roomId,
-            @PathVariable("user-id") Integer userId,
-            @RequestBody @Valid Booking request
+    public ResponseEntity<String> saveBooking(
+            @RequestBody @Valid BookingRequest request
     ){
-        return ResponseEntity.ok(service.saveBooking(roomId,userId,request)) ;
+        return ResponseEntity.ok(service.saveBooking(request)) ;
     }
 
     @GetMapping("/all")

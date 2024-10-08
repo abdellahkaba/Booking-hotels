@@ -20,4 +20,5 @@ public class BookingResponse {
     private String bookingConfirmationCode;
     private String roomType;
     private String userName;
+
 }
