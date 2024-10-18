@@ -1,8 +1,8 @@
 package com.isi.booking.user;
 
 
-import com.isi.booking.exceptionHandler.BusinessErrorCodes;
-import com.isi.booking.exceptionHandler.RoleNameException;
+import com.isi.booking.handler.BusinessErrorCodes;
+import com.isi.booking.exception.RoleNameException;
 import com.isi.booking.role.Role;
 import com.isi.booking.role.RoleRepository;
 import jakarta.persistence.EntityNotFoundException;

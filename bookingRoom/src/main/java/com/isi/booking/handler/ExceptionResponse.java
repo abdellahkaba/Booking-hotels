@@ -1,4 +1,4 @@
-package com.isi.booking.exceptionHandler;
+package com.isi.booking.handler;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;

@@ -1,8 +1,8 @@
-package com.isi.booking.exceptionHandler;
+package com.isi.booking.handler;
 
 
+import com.isi.booking.exception.*;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.isi.booking.exceptionHandler.BusinessErrorCodes.BAD_CREDENTIALS;
+import static com.isi.booking.handler.BusinessErrorCodes.BAD_CREDENTIALS;
 import static org.springframework.http.HttpStatus.*;
 
 @RestControllerAdvice

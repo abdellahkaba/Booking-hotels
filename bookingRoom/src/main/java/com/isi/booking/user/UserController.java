@@ -19,13 +19,13 @@ import java.util.List;
 public class UserController {
 
     private final UserService service;
-    @GetMapping
+    @GetMapping("all")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<ResponseUser>> getAllUsers(){
         return ResponseEntity.ok(service.getAllUsers());
 
     }
-    @GetMapping("/{user-id}")
+    @GetMapping("/get-user-by-id/{user-id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ResponseUser> getUserById(
             @PathVariable("user-id") Integer userId
@@ -51,7 +51,7 @@ public class UserController {
         return ResponseEntity.ok(responseUser);
     }
 
-    @PostMapping("/{user-id}")
+    @PostMapping("/assign-admin-role/{user-id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<User> assignAdminRole(
             @PathVariable("user-id") Integer userId

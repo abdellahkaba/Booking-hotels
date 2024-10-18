@@ -1,9 +1,9 @@
 package com.isi.booking.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.isi.booking.exceptionHandler.BusinessErrorCodes;
-import com.isi.booking.exceptionHandler.EmailConflictException;
-import com.isi.booking.exceptionHandler.PhoneConflictException;
+import com.isi.booking.handler.BusinessErrorCodes;
+import com.isi.booking.exception.EmailConflictException;
+import com.isi.booking.exception.PhoneConflictException;
 import com.isi.booking.role.RoleRepository;
 import com.isi.booking.security.JwtService;
 import com.isi.booking.token.Token;
@@ -56,8 +56,6 @@ public class AuthenticationService {
         var refreshToken = jwtService.generateRefreshToken(user);
         saveUserToken(savedUser,jwtToken);
         return AuthenticationResponse.builder()
-                .token(jwtToken)
-                .refreshToken(refreshToken)
                 .build();
 
     }

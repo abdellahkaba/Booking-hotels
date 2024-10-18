@@ -1,8 +1,8 @@
 package com.isi.booking.room;
 
 
-import com.isi.booking.exceptionHandler.AvailableRoomsByDateAndTypeException;
-import com.isi.booking.exceptionHandler.BusinessErrorCodes;
+import com.isi.booking.exception.AvailableRoomsByDateAndTypeException;
+import com.isi.booking.handler.BusinessErrorCodes;
 import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;

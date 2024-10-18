@@ -36,7 +36,7 @@ public class RoomController {
         return service.getAllRoomTypes();
     }
 
-    @GetMapping("/{room-id}")
+    @GetMapping("get-room-by-id/{room-id}")
     public ResponseEntity<RoomResponse> getRoomById(
             @PathVariable("room-id") Integer roomId
     ){

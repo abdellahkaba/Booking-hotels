@@ -1,9 +1,9 @@
 package com.isi.booking.booking;
 
-import com.isi.booking.exceptionHandler.BusinessErrorCodes;
-import com.isi.booking.exceptionHandler.FoundByConfirmationCodeException;
-import com.isi.booking.exceptionHandler.InvalidBookingDateException;
-import com.isi.booking.exceptionHandler.RoomNotAvailableForSelectDateRange;
+import com.isi.booking.handler.BusinessErrorCodes;
+import com.isi.booking.exception.FoundByConfirmationCodeException;
+import com.isi.booking.exception.InvalidBookingDateException;
+import com.isi.booking.exception.RoomNotAvailableForSelectDateRange;
 import com.isi.booking.room.RoomRepository;
 import com.isi.booking.user.User;
 import com.isi.booking.utils.Utils;

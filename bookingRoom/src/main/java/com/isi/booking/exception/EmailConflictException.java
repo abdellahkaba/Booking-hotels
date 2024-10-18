@@ -1,4 +1,4 @@
-package com.isi.booking.exceptionHandler;
+package com.isi.booking.exception;
 
 public class EmailConflictException extends RuntimeException {
     public EmailConflictException(String message) {
