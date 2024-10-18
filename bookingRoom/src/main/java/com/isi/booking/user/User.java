@@ -2,7 +2,6 @@ package com.isi.booking.user;
 
 import com.isi.booking.booking.Booking;
 import com.isi.booking.role.Role;
-import com.isi.booking.token.Token;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -11,6 +10,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Collection;
