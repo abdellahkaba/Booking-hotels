@@ -5,10 +5,11 @@ import com.isi.booking.exceptionHandler.FoundByConfirmationCodeException;
 import com.isi.booking.exceptionHandler.InvalidBookingDateException;
 import com.isi.booking.exceptionHandler.RoomNotAvailableForSelectDateRange;
 import com.isi.booking.room.RoomRepository;
-import com.isi.booking.user.UserRepository;
+import com.isi.booking.user.User;
 import com.isi.booking.utils.Utils;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BookingService {
 
-    private final UserRepository userRepository;
+//    private final UserRepository userRepository;
     private final RoomRepository roomRepository;
     private final BookingRepository repository;
     private final BookingMapper mapper;
@@ -36,15 +37,14 @@ public class BookingService {
                 );
     }
 
-    public String saveBooking(BookingRequest request) {
+    public String saveBooking(BookingRequest request, Authentication connectedUser) {
 
         if (request.getCheckOutDate().isBefore(request.getCheckInDate())){
             throw new InvalidBookingDateException(BusinessErrorCodes.INVALIDATE_CHECKINDATE_AND_CHECKOUTDATE.getDescription());
         }
         var room = roomRepository.findById(request.getRoomId())
                 .orElseThrow(() -> new EntityNotFoundException(BusinessErrorCodes.ENTITY_NOT_FOUND.getDescription() + " ID :: " + request.getRoomId()));
-        var user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new EntityNotFoundException(BusinessErrorCodes.ENTITY_NOT_FOUND.getDescription() + " ID :: " + request.getUserId()));
+        User user = ((User) connectedUser.getPrincipal());
 
         List<Booking> existingBookings = room.getBookings();
 
