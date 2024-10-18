@@ -31,6 +31,11 @@ public class BookingRoomApplication {
 						Role.builder().name("ADMIN").build()
 				);
 			}
+			if (roleRepository.findByName("MANAGER").isEmpty()){
+				roleRepository.save(
+						Role.builder().name("MANAGER").build()
+				);
+			}
 		};
 	}
 

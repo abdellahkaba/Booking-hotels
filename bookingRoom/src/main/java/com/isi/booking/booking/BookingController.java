@@ -19,7 +19,6 @@ public class BookingController {
 
     private final BookingService service;
     @PostMapping("/to-book")
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
     public ResponseEntity<String> saveBooking(
             @RequestBody @Valid BookingRequest request,
             Authentication connecteUser
@@ -28,7 +27,6 @@ public class BookingController {
     }
 
     @GetMapping("/all")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<BookingResponse>> getAllBookings(){
         return ResponseEntity.ok(service.getAllBookings());
     }
@@ -41,7 +39,6 @@ public class BookingController {
     }
 
     @DeleteMapping("cancel/{booking-id}")
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
     public ResponseEntity<Void> cancelBooking(
             @PathVariable("booking-id") Integer bookingId
     ){

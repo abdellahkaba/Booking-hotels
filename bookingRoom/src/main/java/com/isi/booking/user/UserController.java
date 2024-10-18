@@ -50,13 +50,20 @@ public class UserController {
         ResponseUser responseUser = service.getInfo(email);
         return ResponseEntity.ok(responseUser);
     }
-
     @PostMapping("/assign-admin-role/{user-id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<User> assignAdminRole(
             @PathVariable("user-id") Integer userId
     ){
         User user = service.assignAdminRole(userId);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return new ResponseEntity<>(user,HttpStatus.OK);
+    }
+    @PostMapping("/assign-manager-role/{user-id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<User> assignManagerRole(
+            @PathVariable("user-id") Integer userId
+    ){
+        User user = service.assignManagerRole(userId);
+        return new ResponseEntity<>(user,HttpStatus.OK);
     }
 }

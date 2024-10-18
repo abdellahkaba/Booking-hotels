@@ -20,12 +20,14 @@ public class RoomController {
 
     private final RoomService service ;
     @PostMapping("add")
+    @PreAuthorize("hasAuthority('MANAGER')")
     public ResponseEntity<Integer> addRoom(
             @ModelAttribute @Valid RoomRequest request
     ){
         return ResponseEntity.ok(service.addRoom(request));
     }
     @GetMapping("/all")
+    @PreAuthorize("hasAuthority('MANAGER') or hasAuthority('ADMIN')")
     public ResponseEntity<List<RoomResponse>> getAllRooms(){
         return ResponseEntity.ok(service.getAllRooms());
     }
@@ -37,13 +39,14 @@ public class RoomController {
     }
 
     @GetMapping("get-room-by-id/{room-id}")
+    @PreAuthorize("hasAuthority('MANAGER') or hasAuthority('ADMIN')")
     public ResponseEntity<RoomResponse> getRoomById(
             @PathVariable("room-id") Integer roomId
     ){
         return ResponseEntity.ok(service.getRoomById(roomId));
     }
     @PutMapping("/update/{room-id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('MANAGER') or hasAuthority('ADMIN')")
     public ResponseEntity<Void> updateRoom(
             @PathVariable("room-id") Integer id,
             @ModelAttribute @Valid RoomUpdateRequest request
@@ -61,6 +64,7 @@ public class RoomController {
     }
 
     @DeleteMapping("/delete/{room-id}")
+    @PreAuthorize("hasAuthority('MANAGER') or hasAuthority('ADMIN')")
     public ResponseEntity<Void> deleteRoom(
             @PathVariable("room-id") Integer roomId
     ){
@@ -69,10 +73,12 @@ public class RoomController {
     }
 
     @GetMapping("/list-available-rooms")
+    @PreAuthorize("hasAuthority('MANAGER') or hasAuthority('ADMIN')")
     public ResponseEntity<List<RoomResponse>> getAvailableRooms(){
         return ResponseEntity.ok(service.getAvailableRooms());
     }
     @GetMapping("/available-rooms-by-and-type")
+    @PreAuthorize("hasAuthority('MANAGER') or hasAuthority('ADMIN')")
     public ResponseEntity<List<RoomResponse>> getAvailableRoomsByDateAndType(
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)LocalDate checkInDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)LocalDate checkOutDate,

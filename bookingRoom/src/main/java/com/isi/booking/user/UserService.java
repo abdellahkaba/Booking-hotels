@@ -51,4 +51,14 @@ public class UserService {
         user.getRoles().add(adminRole) ;
         return repository.save(user);
     }
+
+    public User assignManagerRole(Integer userId){
+        User user = repository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException(BusinessErrorCodes.ENTITY_NOT_FOUND.getDescription() + " : " + userId));
+        // get the role manager and assign it to the user
+        Role managerRole = roleRepository.findByName("MANAGER")
+                .orElseThrow(() -> new RoleNameException(BusinessErrorCodes.ROLE_NAME_NOT_EXIST.getDescription()));
+        user.getRoles().add(managerRole);
+        return repository.save(user);
+    }
 }
