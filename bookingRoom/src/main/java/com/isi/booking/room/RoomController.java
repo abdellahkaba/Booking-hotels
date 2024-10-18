@@ -20,7 +20,6 @@ public class RoomController {
 
     private final RoomService service ;
     @PostMapping("add")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Integer> addRoom(
             @ModelAttribute @Valid RoomRequest request
     ){

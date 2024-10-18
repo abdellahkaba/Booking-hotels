@@ -168,6 +168,19 @@ public class GlobalExceptionHandler {
                 );
     }
 
+    @ExceptionHandler(RoleNameException.class)
+    public ResponseEntity<ExceptionResponse> handleException(RoleNameException exp) {
+        return ResponseEntity
+                .status(BusinessErrorCodes.ROLE_NAME_NOT_EXIST.getHttpStatus())
+                .body(
+                        ExceptionResponse.builder()
+                                .businessErrorCode(BusinessErrorCodes.ROLE_NAME_NOT_EXIST.getCode())
+                                .businessErrorDescription(BusinessErrorCodes.ROLE_NAME_NOT_EXIST.getDescription())
+                                .error(exp.getMessage())
+                                .build()
+                );
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionResponse> handleException(Exception exp) {
         exp.printStackTrace();

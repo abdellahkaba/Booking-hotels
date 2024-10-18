@@ -3,6 +3,7 @@ package com.isi.booking.user;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -25,6 +26,7 @@ public class UserController {
 
     }
     @GetMapping("/{user-id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ResponseUser> getUserById(
             @PathVariable("user-id") Integer userId
     ){
@@ -47,5 +49,14 @@ public class UserController {
         String email = authentication.getName();
         ResponseUser responseUser = service.getInfo(email);
         return ResponseEntity.ok(responseUser);
+    }
+
+    @PostMapping("/{user-id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<User> assignAdminRole(
+            @PathVariable("user-id") Integer userId
+    ){
+        User user = service.assignAdminRole(userId);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }

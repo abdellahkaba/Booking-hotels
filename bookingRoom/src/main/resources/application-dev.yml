@@ -14,11 +14,11 @@ spring:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
-aws:
-  s3:
-    access-key: ${AWS_S3_ACCESS_KEY}
-    secret-key: ${AWS_S3_SECRET_KEY}
-    bucket-name: ${AWS_S3_BUCKET_NAME}
+#aws:
+#  s3:
+#    access-key: ${AWS_S3_ACCESS_KEY}
+#    secret-key: ${AWS_S3_SECRET_KEY}
+#    bucket-name: ${AWS_S3_BUCKET_NAME}
 
 application:
 #  file:
@@ -26,7 +26,7 @@ application:
 #      photos-output-path: ./uploads
   security:
     jwt:
-      secret-key: 133E635200446A586E3372057583782F413F9928472B4B6250645367566B5002
+      secret-key: 133E635200446A586E3872057583782F413F9928472B4B6250645367566B5002
       expiration: 86400000 # a day
       refresh-token:
         expiration: 604800000 # 7 days

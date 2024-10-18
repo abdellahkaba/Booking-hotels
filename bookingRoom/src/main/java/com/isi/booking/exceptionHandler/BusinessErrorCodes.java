@@ -2,9 +2,9 @@ package com.isi.booking.exceptionHandler;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.FORBIDDEN;
-import static org.springframework.http.HttpStatus.NOT_IMPLEMENTED;
+
+import static org.springframework.http.HttpStatus.*;
+
 @Getter
 public enum BusinessErrorCodes {
     NO_CODE(0, NOT_IMPLEMENTED, "Aucun code"),
@@ -20,6 +20,7 @@ public enum BusinessErrorCodes {
     ROOM_NOT_AVAILABLE_FOR_SELECT_DATE_RANGE(403, FORBIDDEN, "Chambre non disponible pour la plage de dates sélectionnée" ),
     NOT_FOUND_CONFIRMATION_CODE(404, HttpStatus.NOT_FOUND, "Code de confirmation non trouvé"),
     INVALID_AVAILABLE_ROOMS_BY_DATE_AND_TYPE(400,BAD_REQUEST, "Veuillez fournir des valeurs pour tous les champs (checkInDate, roomType, checkOutDate" ),
+    ROLE_NAME_NOT_EXIST(404,NOT_FOUND, "Ce nom de role n'existe pas"),
     ;
     private final int code;
     private final String description;
