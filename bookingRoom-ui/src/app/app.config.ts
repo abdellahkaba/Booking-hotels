@@ -3,6 +3,7 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import {provideToastr} from "ngx-toastr";
+import {provideHttpClient} from "@angular/common/http";
 
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }),
@@ -14,6 +15,7 @@ export const appConfig: ApplicationConfig = {
       tapToDismiss: true,
       positionClass: 'toast-top-right',
       timeOut: 8000
-    })
+    }),
+    provideHttpClient()
   ]
 };

@@ -17,7 +17,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8089/api/v1",
+      "url": "http://localhost:8088/api/v1",
       "description": "Local ENV"
     },
     {
@@ -843,22 +843,22 @@
           "enabled": {
             "type": "boolean"
           },
+          "username": {
+            "type": "string"
+          },
           "authorities": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/GrantedAuthority"
             }
           },
-          "username": {
-            "type": "string"
-          },
-          "accountNonLocked": {
-            "type": "boolean"
-          },
           "credentialsNonExpired": {
             "type": "boolean"
           },
           "accountNonExpired": {
+            "type": "boolean"
+          },
+          "accountNonLocked": {
             "type": "boolean"
           }
         }
