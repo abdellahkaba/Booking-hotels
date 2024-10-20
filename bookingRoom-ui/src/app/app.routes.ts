@@ -17,4 +17,8 @@ export const routes: Routes = [
     path: '',
     component: HomeComponent
   },
+  {
+    path: 'booking-room',
+    loadChildren: () => import('./modules/booking-room/booking-room.module').then(booking => booking.BookingRoomModule)
+  }
 ];
