@@ -4,6 +4,7 @@ import {AuthenticationService} from "../../services/services/authentication.serv
 import {RegistrationRequest} from "../../services/models/registration-request";
 import {FormsModule} from "@angular/forms";
 import {NgForOf, NgIf} from "@angular/common";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-register',
@@ -24,15 +25,14 @@ export class RegisterComponent {
     phone: '',
     password: ''
   }
-  errorMsg: Array<string> = [];
   constructor(
     private router: Router,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private toastr: ToastrService
   ) {
   }
 
   register() {
-    this.errorMsg = []
     this.authService.register({
       body: this.registerRequest
     }).subscribe({
@@ -40,14 +40,14 @@ export class RegisterComponent {
         this.router.navigate(['login'])
       },
       error: (err) => {
-        console.log(err);
+       console.log(err)
         if (err.error.validationErrors) {
-          this.errorMsg = err.error.validationErrors;
-        } else {
-          this.errorMsg.push(err.error.error);
+          this.toastr.error(err.error.validationErrors, 'Oups !')
+        }else {
+          this.toastr.error(err.error.error, 'Oups !')
         }
       }
-    })
+    });
 
   }
   login() {

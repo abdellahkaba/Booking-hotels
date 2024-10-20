@@ -26,7 +26,6 @@ export class LoginComponent implements OnInit{
     email: '',
     password: ''
   }
-  errorMsg: Array<string> = [];
 
   constructor(
     private router: Router,
@@ -49,9 +48,9 @@ export class LoginComponent implements OnInit{
       error: (err) => {
         console.log(err);
         if (err.error.validationErrors) {
-          this.errorMsg = err.error.validationErrors;
+          this.toastr.error(err.error.validationErrors, 'Oups !' )
         } else {
-          this.errorMsg.push(err.error.error);
+          this.toastr.error(err.error.error, 'Oups !')
         }
       }
     });
