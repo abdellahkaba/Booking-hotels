@@ -3,7 +3,9 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import {provideToastr} from "ngx-toastr";
-import {provideHttpClient} from "@angular/common/http";
+import {provideHttpClient, withInterceptors} from "@angular/common/http";
+import {httpTokenInterceptor} from "./services/interceptor/http-token.interceptor";
+
 
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }),
@@ -16,6 +18,6 @@ export const appConfig: ApplicationConfig = {
       positionClass: 'toast-top-right',
       timeOut: 8000
     }),
-    provideHttpClient()
+    provideHttpClient(withInterceptors([httpTokenInterceptor]))
   ]
 };
