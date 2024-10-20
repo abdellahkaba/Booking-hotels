@@ -5,6 +5,7 @@ import {HomeComponent} from "./components/home/home.component";
 
 
 export const routes: Routes = [
+
   {
     path: 'login',
     component: LoginComponent
