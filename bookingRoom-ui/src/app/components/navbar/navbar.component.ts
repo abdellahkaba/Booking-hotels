@@ -1,18 +1,22 @@
 import {Component, OnInit} from '@angular/core';
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {RouterLink} from "@angular/router";
+import {TokenService} from "../../services/token/token.service";
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
   imports: [
     NgForOf,
-    RouterLink
+    RouterLink,
+    NgIf
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent implements OnInit{
+  isLoggedIn: boolean = false
+  userRoles: string[] = []
   ngOnInit(): void {
     const linkColor = document.querySelectorAll('.nav-link');
     linkColor.forEach(link => {
@@ -25,5 +29,23 @@ export class NavbarComponent implements OnInit{
       });
     });
   }
+
+  constructor(
+    private tokenService: TokenService
+  ) {
+    this.isLoggedIn = this.tokenService.isTokenValid()
+    this.userRoles = this.tokenService.userRoles
+  }
+
+  //
+  isAdmin(): boolean {
+    return this.userRoles.includes('ADMIN');
+  }
+
+  logout(){
+    localStorage.removeItem('token')
+    window.location.reload()
+  }
+
 
 }
