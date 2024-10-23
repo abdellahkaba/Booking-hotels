@@ -1,6 +1,7 @@
 package com.isi.booking.user;
 
 
+import com.isi.booking.common.PageResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -9,8 +10,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,8 +20,11 @@ public class UserController {
     private final UserService service;
     @GetMapping("all")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<List<ResponseUser>> getAllUsers(){
-        return ResponseEntity.ok(service.getAllUsers());
+    public ResponseEntity<PageResponse<ResponseUser>> getAllUsers(
+            @RequestParam(name = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(name = "size", defaultValue = "2", required = false) int size
+    ){
+        return ResponseEntity.ok(service.getAllUsers(page, size));
 
     }
     @GetMapping("/get-user-by-id/{user-id}")

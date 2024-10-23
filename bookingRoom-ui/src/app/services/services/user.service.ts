@@ -23,6 +23,7 @@ import { getLoggedUserProfile } from '../fn/user/get-logged-user-profile';
 import { GetLoggedUserProfile$Params } from '../fn/user/get-logged-user-profile';
 import { getUserById } from '../fn/user/get-user-by-id';
 import { GetUserById$Params } from '../fn/user/get-user-by-id';
+import { PageResponseResponseUser } from '../models/page-response-response-user';
 import { ResponseUser } from '../models/response-user';
 import { User } from '../models/user';
 
@@ -141,7 +142,7 @@ export class UserService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getAllUsers$Response(params?: GetAllUsers$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ResponseUser>>> {
+  getAllUsers$Response(params?: GetAllUsers$Params, context?: HttpContext): Observable<StrictHttpResponse<PageResponseResponseUser>> {
     return getAllUsers(this.http, this.rootUrl, params, context);
   }
 
@@ -151,9 +152,9 @@ export class UserService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getAllUsers(params?: GetAllUsers$Params, context?: HttpContext): Observable<Array<ResponseUser>> {
+  getAllUsers(params?: GetAllUsers$Params, context?: HttpContext): Observable<PageResponseResponseUser> {
     return this.getAllUsers$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<ResponseUser>>): Array<ResponseUser> => r.body)
+      map((r: StrictHttpResponse<PageResponseResponseUser>): PageResponseResponseUser => r.body)
     );
   }
 

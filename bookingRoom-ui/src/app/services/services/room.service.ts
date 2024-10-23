@@ -25,6 +25,7 @@ import { getAvailableRoomsByDateAndType } from '../fn/room/get-available-rooms-b
 import { GetAvailableRoomsByDateAndType$Params } from '../fn/room/get-available-rooms-by-date-and-type';
 import { getRoomById } from '../fn/room/get-room-by-id';
 import { GetRoomById$Params } from '../fn/room/get-room-by-id';
+import { PageResponseRoomResponse } from '../models/page-response-room-response';
 import { RoomResponse } from '../models/room-response';
 import { updateRoom } from '../fn/room/update-room';
 import { UpdateRoom$Params } from '../fn/room/update-room';
@@ -119,7 +120,7 @@ export class RoomService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getAvailableRooms$Response(params?: GetAvailableRooms$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<RoomResponse>>> {
+  getAvailableRooms$Response(params?: GetAvailableRooms$Params, context?: HttpContext): Observable<StrictHttpResponse<PageResponseRoomResponse>> {
     return getAvailableRooms(this.http, this.rootUrl, params, context);
   }
 
@@ -129,9 +130,9 @@ export class RoomService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getAvailableRooms(params?: GetAvailableRooms$Params, context?: HttpContext): Observable<Array<RoomResponse>> {
+  getAvailableRooms(params?: GetAvailableRooms$Params, context?: HttpContext): Observable<PageResponseRoomResponse> {
     return this.getAvailableRooms$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<RoomResponse>>): Array<RoomResponse> => r.body)
+      map((r: StrictHttpResponse<PageResponseRoomResponse>): PageResponseRoomResponse => r.body)
     );
   }
 
@@ -169,7 +170,7 @@ export class RoomService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getAvailableRoomsByDateAndType$Response(params?: GetAvailableRoomsByDateAndType$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<RoomResponse>>> {
+  getAvailableRoomsByDateAndType$Response(params?: GetAvailableRoomsByDateAndType$Params, context?: HttpContext): Observable<StrictHttpResponse<PageResponseRoomResponse>> {
     return getAvailableRoomsByDateAndType(this.http, this.rootUrl, params, context);
   }
 
@@ -179,9 +180,9 @@ export class RoomService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getAvailableRoomsByDateAndType(params?: GetAvailableRoomsByDateAndType$Params, context?: HttpContext): Observable<Array<RoomResponse>> {
+  getAvailableRoomsByDateAndType(params?: GetAvailableRoomsByDateAndType$Params, context?: HttpContext): Observable<PageResponseRoomResponse> {
     return this.getAvailableRoomsByDateAndType$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<RoomResponse>>): Array<RoomResponse> => r.body)
+      map((r: StrictHttpResponse<PageResponseRoomResponse>): PageResponseRoomResponse => r.body)
     );
   }
 
@@ -194,7 +195,7 @@ export class RoomService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getAllRooms$Response(params?: GetAllRooms$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<RoomResponse>>> {
+  getAllRooms$Response(params?: GetAllRooms$Params, context?: HttpContext): Observable<StrictHttpResponse<PageResponseRoomResponse>> {
     return getAllRooms(this.http, this.rootUrl, params, context);
   }
 
@@ -204,9 +205,9 @@ export class RoomService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getAllRooms(params?: GetAllRooms$Params, context?: HttpContext): Observable<Array<RoomResponse>> {
+  getAllRooms(params?: GetAllRooms$Params, context?: HttpContext): Observable<PageResponseRoomResponse> {
     return this.getAllRooms$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<RoomResponse>>): Array<RoomResponse> => r.body)
+      map((r: StrictHttpResponse<PageResponseRoomResponse>): PageResponseRoomResponse => r.body)
     );
   }
 

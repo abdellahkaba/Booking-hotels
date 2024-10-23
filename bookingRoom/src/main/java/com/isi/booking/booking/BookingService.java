@@ -1,19 +1,22 @@
 package com.isi.booking.booking;
 
-import com.isi.booking.handler.BusinessErrorCodes;
+import com.isi.booking.common.PageResponse;
 import com.isi.booking.exception.FoundByConfirmationCodeException;
 import com.isi.booking.exception.InvalidBookingDateException;
 import com.isi.booking.exception.RoomNotAvailableForSelectDateRange;
+import com.isi.booking.handler.BusinessErrorCodes;
 import com.isi.booking.room.RoomRepository;
 import com.isi.booking.user.User;
 import com.isi.booking.utils.Utils;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -63,11 +66,21 @@ public class BookingService {
         return repository.save(booking).getBookingConfirmationCode();
 
     }
-    public List<BookingResponse> getAllBookings() {
-        return repository.findAll()
-                .stream()
+    public PageResponse getAllBookings(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Booking> bookings = repository.findAll(pageable);
+        List<BookingResponse> bookingResponses = bookings.stream()
                 .map(mapper::fromBooking)
-                .collect(Collectors.toList());
+                .toList();
+        return new PageResponse<>(
+                bookingResponses,
+                bookings.getNumber(),
+                bookings.getSize(),
+                bookings.getTotalElements(),
+                bookings.getTotalPages(),
+                bookings.isFirst(),
+                bookings.isLast()
+        );
     }
     public BookingResponse findBookingByConfirmationCode(String confirmationCode) {
         return repository.findByBookingConfirmationCode(confirmationCode)

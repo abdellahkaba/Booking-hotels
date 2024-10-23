@@ -1,16 +1,20 @@
 package com.isi.booking.room;
 
 
+import com.isi.booking.common.PageResponse;
 import com.isi.booking.exception.AvailableRoomsByDateAndTypeException;
 import com.isi.booking.handler.BusinessErrorCodes;
 import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,13 +29,43 @@ public class RoomService {
         room.setRoomPhotoUrl(imageUrl);
         return repository.save(room).getId();
     }
-    public List<RoomResponse> getAllRooms() {
-        return repository.findAll()
+    public PageResponse getAllRooms(int page, int size) {
+        Pageable pageable = PageRequest.of(page,size);
+        Page<Room> rooms = repository.findAll(pageable);
+        List<RoomResponse> roomResponses = rooms
                 .stream()
                 .map(mapper::fromRoom)
-                .collect(Collectors.toList());
+                .toList();
+        return new PageResponse<>(
+            roomResponses,
+                rooms.getNumber(),
+                rooms.getSize(),
+                rooms.getTotalElements(),
+                rooms.getTotalPages(),
+                rooms.isFirst(),
+                rooms.isLast()
+        );
     }
-
+    public PageResponse getAvailableRoomsByDateAndType(int page, int size, LocalDate checkInDate, LocalDate checkOutDate, String roomType) {
+        if (checkInDate == null || roomType == null || roomType.isBlank() || checkOutDate == null){
+            throw new AvailableRoomsByDateAndTypeException(BusinessErrorCodes.INVALID_AVAILABLE_ROOMS_BY_DATE_AND_TYPE.getDescription());
+        }
+        Pageable pageable = PageRequest.of(page,size, Sort.by("checkInDate").descending());
+        Page<Room> rooms = repository.findAvailableRoomsByDatesAndTypes(pageable, checkInDate,checkOutDate,roomType);
+        List<RoomResponse> roomResponses = rooms
+                .stream()
+                .map(mapper::fromRoom)
+                .toList();
+        return new PageResponse<>(
+              roomResponses,
+                rooms.getNumber(),
+                rooms.getSize(),
+                rooms.getTotalElements(),
+                rooms.getTotalPages(),
+                rooms.isFirst(),
+                rooms.isLast()
+        );
+    }
     public List<String> getAllRoomTypes() {
         return repository.findDistinctRoomTypes();
     }
@@ -69,25 +103,26 @@ public class RoomService {
                 .orElseThrow(() -> new EntityNotFoundException(BusinessErrorCodes.ENTITY_NOT_FOUND.getDescription() + " ID :: " + roomId));
         repository.delete(room);
     }
-    public List<RoomResponse> getAvailableRooms() {
-       List<Room> rooms = repository.getAvailableRooms();
-       return rooms.
-               stream()
-               .map(mapper::fromRoom)
-               .collect(Collectors.toList());
-
-    }
-
-    public List<RoomResponse> getAvailableRoomsByDateAndType(LocalDate checkInDate, LocalDate checkOutDate, String roomType) {
-        if (checkInDate == null || roomType == null || roomType.isBlank() || checkOutDate == null){
-            throw new AvailableRoomsByDateAndTypeException(BusinessErrorCodes.INVALID_AVAILABLE_ROOMS_BY_DATE_AND_TYPE.getDescription());
-        }
-        List<Room> rooms = repository.findAvailableRoomsByDatesAndTypes(checkInDate,checkOutDate,roomType);
-        return rooms
+    public PageResponse getAvailableRooms(int page, int size) {
+        Pageable pageable = PageRequest.of(page,size);
+        Page<Room> rooms = repository.getAvailableRooms(pageable);
+        List<RoomResponse> roomResponses = rooms
                 .stream()
                 .map(mapper::fromRoom)
-                .collect(Collectors.toList());
+                .toList();
+       return new PageResponse<>(
+               roomResponses,
+                   rooms.getNumber(),
+                   rooms.getSize(),
+                   rooms.getTotalElements(),
+                   rooms.getTotalPages(),
+                   rooms.isFirst(),
+                   rooms.isLast()
+       );
+
     }
+
+
 
 
     /*public void uploadRoomPhoto(

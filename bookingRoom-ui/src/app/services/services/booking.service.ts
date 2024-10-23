@@ -18,6 +18,7 @@ import { findBookingByConfirmationCode } from '../fn/booking/find-booking-by-con
 import { FindBookingByConfirmationCode$Params } from '../fn/booking/find-booking-by-confirmation-code';
 import { getAllBookings } from '../fn/booking/get-all-bookings';
 import { GetAllBookings$Params } from '../fn/booking/get-all-bookings';
+import { PageResponseBookingResponse } from '../models/page-response-booking-response';
 import { saveBooking } from '../fn/booking/save-booking';
 import { SaveBooking$Params } from '../fn/booking/save-booking';
 
@@ -86,7 +87,7 @@ export class BookingService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getAllBookings$Response(params?: GetAllBookings$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<BookingResponse>>> {
+  getAllBookings$Response(params?: GetAllBookings$Params, context?: HttpContext): Observable<StrictHttpResponse<PageResponseBookingResponse>> {
     return getAllBookings(this.http, this.rootUrl, params, context);
   }
 
@@ -96,9 +97,9 @@ export class BookingService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getAllBookings(params?: GetAllBookings$Params, context?: HttpContext): Observable<Array<BookingResponse>> {
+  getAllBookings(params?: GetAllBookings$Params, context?: HttpContext): Observable<PageResponseBookingResponse> {
     return this.getAllBookings$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<BookingResponse>>): Array<BookingResponse> => r.body)
+      map((r: StrictHttpResponse<PageResponseBookingResponse>): PageResponseBookingResponse => r.body)
     );
   }
 

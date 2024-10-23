@@ -4,6 +4,7 @@ import {AdminComponent} from "./components/admin/admin.component";
 import {ProfileComponent} from "./components/profile/profile.component";
 import {authGuard} from "../../services/guard/auth.guard";
 import {ManageRoomComponent} from "./components/manage-room/manage-room.component";
+import {ListRoomComponent} from "./components/list-room/list-room.component";
 
 
 const routes: Routes = [
@@ -16,8 +17,12 @@ const routes: Routes = [
         path: 'manage-room',
         component: ManageRoomComponent,
         canActivate: [authGuard]
-      }
+      },
     ]
+  },
+  {
+    path: 'list-rooms',
+    component: ListRoomComponent,
   },
   {
     path: 'profile',

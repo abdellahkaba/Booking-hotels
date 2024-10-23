@@ -1,6 +1,7 @@
 package com.isi.booking.room;
 
 
+import com.isi.booking.common.PageResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +29,12 @@ public class RoomController {
     }
     @GetMapping("/all")
     @PreAuthorize("hasAuthority('MANAGER') or hasAuthority('ADMIN')")
-    public ResponseEntity<List<RoomResponse>> getAllRooms(){
-        return ResponseEntity.ok(service.getAllRooms());
+    public ResponseEntity<PageResponse<RoomResponse>> getAllRooms(
+            @RequestParam(name = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(name = "size", defaultValue = "2", required = false) int size
+
+    ){
+        return ResponseEntity.ok(service.getAllRooms(page,size));
     }
     @GetMapping("/types")
     public List<String> getAllRoomTypes(
@@ -74,17 +79,22 @@ public class RoomController {
 
     @GetMapping("/list-available-rooms")
     @PreAuthorize("hasAuthority('MANAGER') or hasAuthority('ADMIN')")
-    public ResponseEntity<List<RoomResponse>> getAvailableRooms(){
-        return ResponseEntity.ok(service.getAvailableRooms());
+    public ResponseEntity<PageResponse<RoomResponse>> getAvailableRooms(
+            @RequestParam(name = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(name = "size", defaultValue = "2", required = false) int size
+    ){
+        return ResponseEntity.ok(service.getAvailableRooms(page, size));
     }
     @GetMapping("/available-rooms-by-and-type")
     @PreAuthorize("hasAuthority('MANAGER') or hasAuthority('ADMIN')")
-    public ResponseEntity<List<RoomResponse>> getAvailableRoomsByDateAndType(
+    public ResponseEntity<PageResponse<RoomResponse>> getAvailableRoomsByDateAndType(
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)LocalDate checkInDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)LocalDate checkOutDate,
-            @RequestParam(required = false) String roomType
+            @RequestParam(required = false) String roomType,
+            @RequestParam(name = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(name = "size", defaultValue = "2", required = false) int size
             ){
-        return ResponseEntity.ok(service.getAvailableRoomsByDateAndType(checkInDate,checkOutDate,roomType));
+        return ResponseEntity.ok(service.getAvailableRoomsByDateAndType(page,size,checkInDate,checkOutDate,roomType));
     }
     /*@PostMapping(value = "/photo/{room-id}", consumes = "multipart/form-data")
     public ResponseEntity<?> uploadRoomPhoto(

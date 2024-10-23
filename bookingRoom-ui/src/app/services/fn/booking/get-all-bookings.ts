@@ -8,14 +8,18 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { BookingResponse } from '../../models/booking-response';
+import { PageResponseBookingResponse } from '../../models/page-response-booking-response';
 
 export interface GetAllBookings$Params {
+  page?: number;
+  size?: number;
 }
 
-export function getAllBookings(http: HttpClient, rootUrl: string, params?: GetAllBookings$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<BookingResponse>>> {
+export function getAllBookings(http: HttpClient, rootUrl: string, params?: GetAllBookings$Params, context?: HttpContext): Observable<StrictHttpResponse<PageResponseBookingResponse>> {
   const rb = new RequestBuilder(rootUrl, getAllBookings.PATH, 'get');
   if (params) {
+    rb.query('page', params.page, {});
+    rb.query('size', params.size, {});
   }
 
   return http.request(
@@ -23,7 +27,7 @@ export function getAllBookings(http: HttpClient, rootUrl: string, params?: GetAl
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<BookingResponse>>;
+      return r as StrictHttpResponse<PageResponseBookingResponse>;
     })
   );
 }
