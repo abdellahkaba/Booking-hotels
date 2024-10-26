@@ -1,1 +1,92 @@
-<p>All rooms</p>
+<app-navbar/>
+<h3>All Rooms</h3>
+<section>
+  <div *ngFor="let room of roomResponse.content; let index">
+    <img [src]="room.roomPhotoUrl" [alt]="room.roomType" />
+    <div class="">
+      <h3>{{room.roomType}}</h3>
+      <p>Price: ${{room.roomPrice}} / night</p>
+      <p>Description: {{room.roomDescription}}</p>
+    </div>
+
+    <div class="book-now-div">
+      <button
+        *ngIf="isAdmin()"
+        class="edit-room-button"
+      >
+        Edit Room
+      </button>
+      <button
+        *ngIf="!isAdmin()"
+        class="book-now-button"
+      >
+        View/Book Now
+      </button>
+    </div>
+  </div>
+
+
+</section>
+
+<div class="d-flex justify-content-center mt-3">
+  <nav aria-label="Page navigation example">
+    <ul class="pagination">
+      <li class="page-item">
+        <a
+          (click)="goToFirstPage()"
+          class="page-link"
+          href="javascript:void(0)"
+          aria-label="Previous"
+          [class.disabled]="page === 0"
+        >
+          <i class="fa-solid fa-angles-left"></i>
+        </a>
+      </li>
+      <li class="page-item">
+        <a
+          (click)="goToPreviousPage()"
+          class="page-link"
+          href="javascript:void(0)"
+          aria-label="Previous"
+          [class.disabled]="page === 0"
+        >
+          <i class="fa-solid fa-angle-left"></i>
+        </a>
+      </li>
+      <li
+        class="page-item"
+        *ngFor="let pageIndex of pages"
+      >
+        <a
+          (click)="goToPage(pageIndex)"
+          class="page-link"
+          [class.active]="page === pageIndex"
+          href="javascript:void(0)"
+        >{{ pageIndex + 1 }}</a>
+      </li>
+      <li class="page-item">
+        <a
+          (click)="goToNextPage()"
+          class="page-link"
+          href="javascript:void(0)"
+          aria-label="Next"
+          [class.disabled]="isLastPage"
+        >
+          <i class="fa-solid fa-chevron-right"></i>
+        </a>
+      </li>
+      <li class="page-item">
+        <a
+          (click)="goToLastPage()"
+          class="page-link"
+          href="javascript:void(0)"
+          aria-label="Next"
+          [class.disabled]="isLastPage"
+        >
+          <i class="fa-solid fa-angles-right"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
+<app-footer />

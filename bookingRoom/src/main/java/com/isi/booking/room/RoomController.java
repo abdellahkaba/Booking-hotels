@@ -28,7 +28,7 @@ public class RoomController {
         return ResponseEntity.ok(service.addRoom(request));
     }
     @GetMapping("/all")
-    @PreAuthorize("hasAuthority('MANAGER') or hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('MANAGER') or hasAuthority('ADMIN')")
     public ResponseEntity<PageResponse<RoomResponse>> getAllRooms(
             @RequestParam(name = "page", defaultValue = "0", required = false) int page,
             @RequestParam(name = "size", defaultValue = "2", required = false) int size

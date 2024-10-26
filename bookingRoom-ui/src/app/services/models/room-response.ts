@@ -7,4 +7,5 @@ export interface RoomResponse {
   roomDescription?: string;
   roomPhotoUrl?: string;
   roomType?: string;
+  roomPrice?: number;
 }
