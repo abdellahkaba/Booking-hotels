@@ -14,6 +14,25 @@ services:
     networks:
       - spring-booking
     restart: unless-stopped
+
+  booking-api:
+    container_name: booking-api
+    image: booking/booking:1.0.0
+    ports:
+      - 8088:8088
+    networks:
+      - spring-booking
+    depends_on:
+      - postgres
+  booking-frontend:
+    container_name: booking-frontend
+    image: booking-ui/booking-ui:1.0.0
+    ports:
+      - 8080:80
+    networks:
+      - spring-booking
+    depends_on:
+      - booking-api
   mail-dev:
     container_name: mail-dev-booking
     image: maildev/maildev
