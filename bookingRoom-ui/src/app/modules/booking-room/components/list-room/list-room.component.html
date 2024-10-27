@@ -1,32 +1,34 @@
 <app-navbar/>
-<h3>All Rooms</h3>
-<section>
-  <div *ngFor="let room of roomResponse.content; let index">
-    <img [src]="room.roomPhotoUrl" [alt]="room.roomType" />
-    <div class="">
-      <h3>{{room.roomType}}</h3>
-      <p>Price: ${{room.roomPrice}} / night</p>
-      <p>Description: {{room.roomDescription}}</p>
-    </div>
+<section class="room-results">
+  <div class="room-list">
+    <div *ngFor="let room of roomResponse.content" class="room-list-item">
+      <img class="room-list-item-image" [src]="room.roomPhotoUrl" [alt]="room.roomType" />
+      <div class="room-details">
+        <h3>{{ room.roomType }}</h3>
+        <p>Price: ${{ room.roomPrice }} / night</p>
+        <p>Description: {{ room.roomDescription }}</p>
+      </div>
 
-    <div class="book-now-div">
-      <button
-        *ngIf="isAdmin()"
-        class="edit-room-button"
-      >
-        Edit Room
-      </button>
-      <button
-        *ngIf="!isAdmin()"
-        class="book-now-button"
-      >
-        View/Book Now
-      </button>
+      <div class="book-now-div">
+        <button
+          *ngIf="isAdmin()"
+          class="edit-room-button"
+
+        >
+          Edit Room
+        </button>
+        <button
+          *ngIf="!isAdmin()"
+          class="book-now-button"
+
+        >
+          View/Book Now
+        </button>
+      </div>
     </div>
   </div>
-
-
 </section>
+
 
 <div class="d-flex justify-content-center mt-3">
   <nav aria-label="Page navigation example">
