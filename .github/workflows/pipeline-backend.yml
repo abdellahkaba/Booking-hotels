@@ -21,6 +21,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: List directory
+        run: ls -la
+
       - name: Set executable permissions for mvnw
         run: chmod +x bookingRoom/mvnw
 
@@ -40,6 +43,12 @@ jobs:
     runs-on: ubuntu-latest
     needs: [compile]
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: List directory
+        run: ls -la
+
       - name: Setup JDK
         uses: actions/setup-java@v4
         with:
