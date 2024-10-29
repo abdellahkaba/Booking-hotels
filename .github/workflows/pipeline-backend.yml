@@ -49,6 +49,9 @@ jobs:
       - name: List directory
         run: ls -la
 
+      - name: Set executable permissions for mvnw
+        run: chmod +x bookingRoom/mvnw
+
       - name: Setup JDK
         uses: actions/setup-java@v4
         with:
@@ -59,6 +62,7 @@ jobs:
         id: extract_version
         run: |
           cd bookingRoom
+          chmod +x mvnw # Ajout des permissions d'exécution ici également
           echo "VERSION=$(./mvnw -q -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $GITHUB_OUTPUT
 
       - name: Login to DockerHub
