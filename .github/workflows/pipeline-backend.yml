@@ -21,8 +21,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Set executable permissions for mvnw
+        run: chmod +x bookingRoom/mvnw
+
       - name: Setup JDK
-        uses: actions/setup-java@v4  # Correction ici
+        uses: actions/setup-java@v4
         with:
           java-version: 17
           distribution: 'corretto'
@@ -66,5 +69,3 @@ jobs:
           build-args: |
             PROFILE=dev
             APP_VERSION=${{ steps.extract_version.outputs.VERSION }}
-
-
