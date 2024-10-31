@@ -42,4 +42,4 @@ jobs:
           file: docker/frontend/Dockerfile
           push: true
           platforms: linux/amd64
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/booking-frontend:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/booking-frontend:${{ env.VERSION }},${{ secrets.DOCKERHUB_USERNAME }}/booking-frontend:latest
