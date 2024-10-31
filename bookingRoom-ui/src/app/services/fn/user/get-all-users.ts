@@ -8,14 +8,18 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { ResponseUser } from '../../models/response-user';
+import { PageResponseResponseUser } from '../../models/page-response-response-user';
 
 export interface GetAllUsers$Params {
+  page?: number;
+  size?: number;
 }
 
-export function getAllUsers(http: HttpClient, rootUrl: string, params?: GetAllUsers$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ResponseUser>>> {
+export function getAllUsers(http: HttpClient, rootUrl: string, params?: GetAllUsers$Params, context?: HttpContext): Observable<StrictHttpResponse<PageResponseResponseUser>> {
   const rb = new RequestBuilder(rootUrl, getAllUsers.PATH, 'get');
   if (params) {
+    rb.query('page', params.page, {});
+    rb.query('size', params.size, {});
   }
 
   return http.request(
@@ -23,7 +27,7 @@ export function getAllUsers(http: HttpClient, rootUrl: string, params?: GetAllUs
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<ResponseUser>>;
+      return r as StrictHttpResponse<PageResponseResponseUser>;
     })
   );
 }

@@ -1,6 +1,7 @@
 package com.isi.booking.booking;
 
 
+import com.isi.booking.common.PageResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +28,11 @@ public class BookingController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<BookingResponse>> getAllBookings(){
-        return ResponseEntity.ok(service.getAllBookings());
+    public ResponseEntity<PageResponse<BookingResponse>> getAllBookings(
+            @RequestParam(name = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(name = "size", defaultValue = "2", required = false) int size
+    ){
+        return ResponseEntity.ok(service.getAllBookings(page,size));
     }
 
     @GetMapping("/get-by-confirmation-code/{confirmation-code}")

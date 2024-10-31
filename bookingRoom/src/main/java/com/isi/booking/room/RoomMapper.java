@@ -23,6 +23,7 @@ public class RoomMapper {
        return RoomResponse.builder()
                 .id(room.getId())
                 .roomType(room.getRoomType())
+                .roomPrice(room.getRoomPrice().toString())
                 .roomPhotoUrl(room.getRoomPhotoUrl())
                 .roomDescription(room.getRoomDescription())
                 .build();

@@ -8,20 +8,24 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { RoomResponse } from '../../models/room-response';
+import { PageResponseRoomResponse } from '../../models/page-response-room-response';
 
 export interface GetAvailableRoomsByDateAndType$Params {
   checkInDate?: string;
   checkOutDate?: string;
   roomType?: string;
+  page?: number;
+  size?: number;
 }
 
-export function getAvailableRoomsByDateAndType(http: HttpClient, rootUrl: string, params?: GetAvailableRoomsByDateAndType$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<RoomResponse>>> {
+export function getAvailableRoomsByDateAndType(http: HttpClient, rootUrl: string, params?: GetAvailableRoomsByDateAndType$Params, context?: HttpContext): Observable<StrictHttpResponse<PageResponseRoomResponse>> {
   const rb = new RequestBuilder(rootUrl, getAvailableRoomsByDateAndType.PATH, 'get');
   if (params) {
     rb.query('checkInDate', params.checkInDate, {});
     rb.query('checkOutDate', params.checkOutDate, {});
     rb.query('roomType', params.roomType, {});
+    rb.query('page', params.page, {});
+    rb.query('size', params.size, {});
   }
 
   return http.request(
@@ -29,7 +33,7 @@ export function getAvailableRoomsByDateAndType(http: HttpClient, rootUrl: string
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<RoomResponse>>;
+      return r as StrictHttpResponse<PageResponseRoomResponse>;
     })
   );
 }

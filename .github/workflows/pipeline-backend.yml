@@ -1,0 +1,86 @@
+name: BOOKING ROOM HOTEL Backend API Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - frontend
+    paths:
+      - bookingRoom/**
+      - docker/backend/**
+      - 'docker-compose.yml'
+      - .github/workflows/*-backend.yml
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    name: Compile project
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: List directory
+        run: ls -la
+
+      - name: Set executable permissions for mvnw
+        run: chmod +x bookingRoom/mvnw
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'corretto'
+
+      - name: Compile project
+        run: |
+          cd bookingRoom
+          ./mvnw clean compile
+
+  build-image:
+    name: Build Docker image
+    runs-on: ubuntu-latest
+    needs: [compile]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: List directory
+        run: ls -la
+
+      - name: Set executable permissions for mvnw
+        run: chmod +x bookingRoom/mvnw
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'corretto'
+
+      - name: Extract project version
+        id: extract_version
+        run: |
+          cd bookingRoom
+          chmod +x mvnw # Ajout des permissions d'exécution ici également
+          echo "VERSION=$(./mvnw -q -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $GITHUB_OUTPUT
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build & Push to DockerHub
+        uses: docker/build-push-action@v5
+        with:
+          context: bookingRoom
+          file: docker/backend/Dockerfile
+          push: true
+          platforms: linux/amd64
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/booking-api:${{ steps.extract_version.outputs.VERSION }},${{ secrets.DOCKERHUB_USERNAME }}/booking-api:latest
+          build-args: |
+            PROFILE=dev
+            APP_VERSION=${{ steps.extract_version.outputs.VERSION }}
+
+##

@@ -41,7 +41,7 @@ application:
 #      photos-output-path: ./uploads
   security:
     jwt:
-      secret-key: 133E635200446A586E3872057583782F413F9928472B4B6250645367566B5002
+      secret-key: 303E635200446A586E3272357583782F413F9928472B4B6250645367566B5079
       expiration: 86400000 # a day
       refresh-token:
         expiration: 604800000 # 7 days

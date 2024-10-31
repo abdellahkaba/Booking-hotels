@@ -8,14 +8,18 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { RoomResponse } from '../../models/room-response';
+import { PageResponseRoomResponse } from '../../models/page-response-room-response';
 
 export interface GetAvailableRooms$Params {
+  page?: number;
+  size?: number;
 }
 
-export function getAvailableRooms(http: HttpClient, rootUrl: string, params?: GetAvailableRooms$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<RoomResponse>>> {
+export function getAvailableRooms(http: HttpClient, rootUrl: string, params?: GetAvailableRooms$Params, context?: HttpContext): Observable<StrictHttpResponse<PageResponseRoomResponse>> {
   const rb = new RequestBuilder(rootUrl, getAvailableRooms.PATH, 'get');
   if (params) {
+    rb.query('page', params.page, {});
+    rb.query('size', params.size, {});
   }
 
   return http.request(
@@ -23,7 +27,7 @@ export function getAvailableRooms(http: HttpClient, rootUrl: string, params?: Ge
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<RoomResponse>>;
+      return r as StrictHttpResponse<PageResponseRoomResponse>;
     })
   );
 }

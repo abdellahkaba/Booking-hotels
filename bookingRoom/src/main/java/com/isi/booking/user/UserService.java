@@ -1,20 +1,23 @@
 package com.isi.booking.user;
 
 
-import com.isi.booking.handler.BusinessErrorCodes;
+import com.isi.booking.common.PageResponse;
 import com.isi.booking.exception.RoleNameException;
+import com.isi.booking.handler.BusinessErrorCodes;
 import com.isi.booking.role.Role;
 import com.isi.booking.role.RoleRepository;
 import com.isi.booking.token.Token;
 import com.isi.booking.token.TokenRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,11 +28,21 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final TokenRepository tokenRepository ;
 
-    public List<ResponseUser> getAllUsers() {
-        return repository.findAll()
-                .stream()
+    public PageResponse getAllUsers(int page, int size) {
+        Pageable pageable = PageRequest.of(page,size);
+        Page<User> users = repository.findAll(pageable);
+        List<ResponseUser> responseUsers = users.stream()
                 .map(mapper::fromUser)
-                .collect(Collectors.toList());
+                .toList();
+        return new PageResponse<>(
+                responseUsers,
+                users.getNumber(),
+                users.getSize(),
+                users.getTotalElements(),
+                users.getTotalPages(),
+                users.isFirst(),
+                users.isLast()
+        );
     }
     public ResponseUser getUserById(Integer userId) {
         return repository.findById(userId)
