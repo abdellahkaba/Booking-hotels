@@ -39,6 +39,6 @@ jobs:
           context: bookingRoom-ui
           file: docker/frontend/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/booking-frontend:latest,${{ secrets.DOCKERHUB_USERNAME }}/booking-frontend:${{ steps.extract_version.outputs.VERSION }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/booking-frontend:${{ steps.extract_version.outputs.VERSION }},${{ secrets.DOCKERHUB_USERNAME}}/booking-frontend:latest
 
 ###
