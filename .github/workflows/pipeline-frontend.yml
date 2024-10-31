@@ -40,3 +40,5 @@ jobs:
           file: docker/frontend/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/booking-ui:latest,${{ secrets.DOCKERHUB_USERNAME }}/booking-ui:${{ steps.extract_version.outputs.VERSION }}
+
+###
