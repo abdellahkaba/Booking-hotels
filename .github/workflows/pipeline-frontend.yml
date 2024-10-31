@@ -25,7 +25,9 @@ jobs:
         id: extract_version
         run: |
           cd bookingRoom-ui
-          echo "VERSION=$(jq -r '.version' package.json)" >> $GITHUB_OUTPUT
+          VERSION=$(jq -r '.version' package.json)
+          echo "VERSION=$VERSION"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Login to DockerHub
         uses: docker/login-action@v3
@@ -40,6 +42,4 @@ jobs:
           file: docker/frontend/Dockerfile
           push: true
           platforms: linux/amd64
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/booking-frontend:${{ steps.extract_version.outputs.VERSION }},${{ secrets.DOCKERHUB_USERNAME}}/booking-frontend:latest
-
-###
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/booking-frontend:${{ env.VERSION }},${{ secrets.DOCKERHUB_USERNAME }}/booking-frontend:latest
